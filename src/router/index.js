@@ -22,7 +22,7 @@ const routes = [
     component: CoachRegistration,
   },
   {
-    path: "requests",
+    path: "/requests",
     component: RequestReceived,
   },
   //Not found page
