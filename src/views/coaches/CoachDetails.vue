@@ -44,7 +44,7 @@ export default {
     },
     created() {
     
-         const coach = this.$store.getters['coaches/coaches'].find(c => c.id === this.id);
+         const coach = this.$store.getters['coaches/coaches'].find(c => c.id === +this.id);
          this.selectedCoach = coach
     }
 

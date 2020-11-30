@@ -4,24 +4,7 @@ const coachModule = {
     {
         return {
             coaches:[
-                {
-                  id: 'c1',
-                  firstName: 'Maximilian',
-                  lastName: 'Schwarzmüller',
-                  areas: ['frontend', 'backend'],
-                  description:
-                    "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
-                  hourlyRate: 30
-                },
-                {
-                  id: 'c2',
-                  firstName: 'Julie',
-                  lastName: 'Jones',
-                  areas: ['frontend'],
-                  description:
-                    'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
-                  hourlyRate: 30
-                }
+
               ] 
         }
     },
@@ -32,10 +15,26 @@ const coachModule = {
         console.log(formData);
         state.coaches.push(formData);
         console.log(state.coaches);
-      }
+      },
+      mutateCoaches(state, payload){
+        console.log(payload.coaches)
+        state.coaches = payload.coaches;
+      },  
     },
     
     actions: {
+     async loadCoaches(context) {
+       const response = await fetch("https://localhost:44394/api/coaches");
+     
+       if(response.ok){
+        const coaches = await response.json();
+        context.commit("mutateCoaches", {coaches});
+       }else{
+         const error = new Error(response.message || 'Failed to Load from Server !');
+         throw error;
+       }
+       
+     },
      async addCoachFromSubmit(context,payload){
         
         const newData = {
