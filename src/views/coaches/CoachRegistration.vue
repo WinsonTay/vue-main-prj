@@ -17,7 +17,7 @@ export default {
             this.$store.dispatch('coaches/addCoachFromSubmit', {
                 formData
             })
-            this.$router.push('/coaches');
+            //this.$router.push('/coaches');
         }
     }
 }

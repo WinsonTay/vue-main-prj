@@ -28,23 +28,41 @@ const coachModule = {
     
     mutations: {
       addCoach(state,payload){
-        const formData = payload.formData;
+        const formData = payload;
         console.log(formData);
-        state.coaches.push({
-           id: Date.now().toISOString,
-           firstName:formData.first,
-           lastName:formData.last,
-           hourlyRate:formData.rate,
-           description:formData.desc,
-           areas:formData.areas
-        });
-
+        state.coaches.push(formData);
+        console.log(state.coaches);
       }
     },
     
     actions: {
-      addCoachFromSubmit(context,payload){
-        context.commit("addCoach", payload);
+     async addCoachFromSubmit(context,payload){
+        
+        const newData = {
+          firstName:payload.formData.first,
+          lastName:payload.formData.last,
+          hourlyRate:payload.formData.rate,
+          description:payload.formData.desc,
+          areas:payload.formData.areas
+        }
+        const response = await fetch("https://localhost:44394/api/coaches", {
+          method:"POST",
+          headers:{
+            "Content-type":"application/json"
+          },
+          body:JSON.stringify(newData)
+        })
+        if(response.ok){
+          const dataResponse = await response.json();
+          alert("Succeeded Register new Coach !")
+          dataResponse.id = dataResponse.id.toString();
+          console.log(dataResponse.id);
+          context.commit("addCoach", dataResponse);
+        }else {
+          alert("Something went wrong with the Server, Please try again !")
+        }
+        
+    
       }
         
     },
